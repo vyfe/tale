@@ -1,20 +1,28 @@
 #!/bin/sh
+  # todo: backup dbfile
+  WORK_DIR=`pwd`
+  APP_NAME="tale"
+  CODE_DIR="tale-vyfe"
+  APP_PROD=${APP_NAME}-prod
 
-APP_NAME="tale"
-get_latest_release() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                            # Get tag line
-    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
-}
+  if [ ! -d ${APP_PROD} ];
+  then
+      mkdir ${APP_PROD}
+  fi
+  # todo: maven package
+  cd $CODE_DIR
+  rm -rf target/*
+  mvn clean package -Pprod -Dmaven.test.skip=true
+  # todo: copy tar from output dir
+  if test -f $APP_NAME.tar.gz
+  then
+	  rm -rf $APP_NAME.tar.gz
+  fi
 
-TAG_VERSION=$(get_latest_release "otale/tale")
-
-wget -N --no-check-certificate https://github.com/otale/tale/releases/download/$TAG_VERSION/tale.tar.gz
-
-echo '下载完毕'
-
-mkdir $APP_NAME
-tar -zxvf $APP_NAME.tar.gz -C $APP_NAME && cd $APP_NAME
-chmod +x tool
-
-echo '安装成功，请进入 tale 目录执行 sh tool start 启动'
+  cp $CODE_DIR/target/dist/$APP_NAME.tar.gz $WORK_DIR
+  # 解压部署
+  tar -zxvf $APP_NAME.tar.gz -C $APP_PROD && cd $APP_PROD
+  chmod +x tool
+  echo 'unzip OK'
+  sleep 1
+  sh tool restart

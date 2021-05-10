@@ -91,16 +91,16 @@
 
     <repositories>
         <repository>
-            <id>oss-releases</id>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
+            <id>aliyun</id>
+	    <url>https://maven.aliyun.com/repository/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
+	<!-- <repository>
             <id>oss-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <releases>
@@ -109,7 +109,7 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
+    </repository>-->
     </repositories>
 
     <profiles>
