@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -118,7 +119,11 @@ public class AdminApiController extends BaseController {
         }
         CommonValidator.valid(contents);
         Integer cid = contents.getCid();
-        contentsService.updateArticle(contents);
+        try {
+            contentsService.updateArticle(contents);
+        } catch (UnsupportedEncodingException e) {
+            System.out.print(e.getMessage());
+        }
         return RestResponse.ok(cid);
     }
 
@@ -163,7 +168,11 @@ public class AdminApiController extends BaseController {
         }
         Integer cid = contents.getCid();
         contents.setType(Types.PAGE);
-        contentsService.updateArticle(contents);
+        try {
+            contentsService.updateArticle(contents);
+        } catch (UnsupportedEncodingException e) {
+            System.out.print(e.getMessage());
+        }
         return RestResponse.ok(cid);
     }
 
