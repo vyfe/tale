@@ -8,7 +8,12 @@
   # todo: backup dbfile
   time2=$(date "+%Y%m%d%H")
   backfile=tale.db."${time2}"
-  cp $APP_PROD/resources/tale.db /home/work/backup/"${backfile}"
+  # 存在则不备份
+  if [ ! -f backup/${backfile} ];
+  then
+    cp $APP_PROD/resources/tale.db /home/work/backup/"${backfile}"
+  fi
+
 
   if [ ! -d ${APP_PROD} ];
   then

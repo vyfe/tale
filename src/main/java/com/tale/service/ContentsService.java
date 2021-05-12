@@ -1,5 +1,8 @@
 package com.tale.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import com.blade.exception.ValidatorException;
 import com.blade.ioc.annotation.Bean;
 import com.blade.ioc.annotation.Inject;
@@ -84,10 +87,11 @@ public class ContentsService {
      *
      * @param contents 文章对象
      */
-    public void updateArticle(Contents contents) {
+    public void updateArticle(Contents contents) throws UnsupportedEncodingException {
         contents.setCreated(contents.getCreated());
         contents.setModified(DateKit.nowUnix());
-        contents.setContent(EmojiParser.parseToAliases(contents.getContent()));
+        contents.setContent(EmojiParser.parseToAliases(
+                URLDecoder.decode(contents.getContent(), "UTF-8")));
         contents.setTags(contents.getTags() != null ? contents.getTags() : "");
         contents.setCategories(contents.getCategories() != null ? contents.getCategories() : "");
 

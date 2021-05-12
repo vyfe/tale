@@ -187,7 +187,8 @@ var vm = new Vue({
         },
         autoSave: function (callback) {
             var $vm = this;
-            var content = $vm.article.fmtType === 'markdown' ? mditor.value : htmlEditor.summernote('code');
+            var content = $vm.article.fmtType === 'markdown' ?
+                encodeURIComponent(mditor.value) : htmlEditor.summernote('code');
             if ($vm.article.title !== '' && content !== '') {
                 $vm.article.content = content;
                 $vm.article.categories = $vm.article.selected.join(',');
